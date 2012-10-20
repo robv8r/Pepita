@@ -120,6 +120,9 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\PepitaGet\NugetConfigReader.cs">
+      <Link>NugetConfigReader.cs</Link>
+    </Compile>
     <Compile Include="AllProjectFinder.cs" />
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="AssemblyVersionReader.cs" />
@@ -133,7 +136,6 @@
     <Compile Include="Logger.cs" />
     <Compile Include="MenuStatusChecker.cs" />
     <Compile Include="MSBuildKiller.cs" />
-    <Compile Include="NugetConfigReader.cs" />
     <Compile Include="PathEx.cs" />
     <Compile Include="ProcessExtensions.cs" />
     <Compile Include="MessageDisplayer.cs" />
