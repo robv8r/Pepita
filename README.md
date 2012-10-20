@@ -4,7 +4,7 @@ A few small [nuget](http://nuget.org/) utilities
 
 A small (12KB) MSBuild task that retrieves nuget packages as part of your build.
 
- * [HowPepitaGetWorksNew](https://github.com/SimonCropp/Pepita/wiki/HowPepitaGetWorksNew)
+ * [How PepitaGet Works](https://github.com/SimonCropp/Pepita/wiki/PepitaGetHowItWorks)
 
 ## Visual Studio Addin
 
@@ -12,11 +12,11 @@ There is a  [Visual Studio addin](http://visualstudiogallery.msdn.microsoft.com/
 
 ## Usage
 
-See [SampleUsage](https://github.com/SimonCropp/Pepita/wiki/PepitaGetSampleUsage) for an introduction on using PepitaGet.
+See [PepitaGet Sample Usage](https://github.com/SimonCropp/Pepita/wiki/PepitaGetSampleUsage) for an introduction on using PepitaGet.
 
 # PepitaPackage
 
 A small (12KB) MSBuild task that builds nuget packages (.nupkg).
 
- * [HowPepitaPackageWorksNew](https://github.com/SimonCropp/Pepita/wiki/HowPepitaPackageWorksNew)
- * [SetupPepitaPackage](https://github.com/SimonCropp/Pepita/wiki/SetupPepitaPackage)
+ * [How PepitaPackage Works](https://github.com/SimonCropp/Pepita/wiki/PepitaPackageHowItWorks)
+ * [How to Setup PepitaPackage](https://github.com/SimonCropp/Pepita/wiki/PepitaPackageSetup)
