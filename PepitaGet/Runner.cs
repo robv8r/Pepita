@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Packaging;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 public partial class Runner
 {
@@ -22,13 +24,23 @@ public partial class Runner
 
     public void Execute()
     {
-        AdditionalFeeds.Add("http://packages.nuget.org");
-        GetCachePath();
-        PackagesPath = NugetConfigReader.GetPackagesPathFromConfig(ProjectDirectory);
-        if (PackagesPath == null)
+        var nugetConfigFeeds = GetAllFeeds();
+        foreach (var nugetConfigFeed in nugetConfigFeeds)
         {
-            PackagesPath = Path.Combine(SolutionDirectory, "Packages");
+            if (!AdditionalFeeds.Contains(nugetConfigFeed))
+            {
+                AdditionalFeeds.Add(nugetConfigFeed);
+            }
         }
+
+        GetCachePath();
+        string packagesPath = NugetConfigReader.GetPackagesPathFromConfig(ProjectDirectory);
+        if (packagesPath == null)
+        {
+            packagesPath = Path.Combine(SolutionDirectory, "Packages");
+        }
+
+        PackagesPath = Path.GetFullPath(packagesPath);
 
         WriteInfo("Using PackagesPath: " + PackagesPath);
         var projectPackagesConfigPath = Path.Combine(ProjectDirectory, "packages.config");
@@ -44,6 +56,43 @@ public partial class Runner
         CleanCache();
     }
 
+    IEnumerable<string> GetAllFeeds()
+    {
+        var feeds = new List<string>();
+
+#if DEBUG
+        System.Diagnostics.Debugger.Launch();
+#endif
+
+        string configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "NuGet", "NuGet.Config");
+        if (File.Exists(configPath))
+        {
+            var doc = XDocument.Load(configPath);
+            var packageSources = doc.XPathSelectElement("/configuration/packageSources");
+            if (packageSources != null)
+            {
+                foreach (var packageSource in packageSources.Elements())
+                {
+                    var attribute = packageSource.Attribute("value");
+                    if (attribute != null)
+                    {
+                        string url = attribute.Value;
+                        if (!string.IsNullOrWhiteSpace(url))
+                        {
+                            feeds.Add(url);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (feeds.Count == 0)
+        {
+            feeds.Add("http://packages.nuget.org");
+        }
+
+        return feeds;
+    }
 
     void ProcessPackageDef(PackageDef packageDef)
     {
@@ -60,6 +109,9 @@ public partial class Runner
         try
         {
             var nupkgFilePath = Path.Combine(packagePath, string.Format("{0}.{1}.nupkg", packageDef.Id, packageDef.Version));
+
+            // Resolve relative paths
+            nupkgFilePath = Path.GetFullPath(nupkgFilePath);
 
             if (Directory.Exists(nupkgFilePath))
             {

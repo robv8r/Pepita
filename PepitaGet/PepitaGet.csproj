@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CleanCache.cs" />
-    <Compile Include="Donwloader.cs" />
+    <Compile Include="Downloader.cs" />
     <Compile Include="NugetConfigReader.cs" />
     <Compile Include="ExpectedException.cs" />
     <Compile Include="PackageDef.cs" />
