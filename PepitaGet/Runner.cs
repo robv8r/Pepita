@@ -11,9 +11,9 @@ public partial class Runner
     public string PackagesPath;
     public Action<string> WriteInfo = x => { };
     public string CachePath;
-    public List<string> AdditionalFeeds=new List<string>();
     bool cacheCleanRequired;
     public string SolutionDirectory;
+    public List<string> PackageFeeds; 
 
     public void GetCachePath()
     {
@@ -24,17 +24,11 @@ public partial class Runner
 
     public void Execute()
     {
-        var nugetConfigFeeds = GetAllFeeds();
-        foreach (var nugetConfigFeed in nugetConfigFeeds)
-        {
-            if (!AdditionalFeeds.Contains(nugetConfigFeed))
-            {
-                AdditionalFeeds.Add(nugetConfigFeed);
-            }
-        }
+        GetAllFeeds();
 
         GetCachePath();
-        string packagesPath = NugetConfigReader.GetPackagesPathFromConfig(ProjectDirectory);
+
+        var packagesPath = NugetConfigReader.GetPackagesPathFromConfig(ProjectDirectory);
         if (packagesPath == null)
         {
             packagesPath = Path.Combine(SolutionDirectory, "Packages");
@@ -56,9 +50,9 @@ public partial class Runner
         CleanCache();
     }
 
-    IEnumerable<string> GetAllFeeds()
+    void GetAllFeeds()
     {
-        var feeds = new List<string>();
+        PackageFeeds = new List<string>();
 
 #if DEBUG
         System.Diagnostics.Debugger.Launch();
@@ -79,19 +73,21 @@ public partial class Runner
                         string url = attribute.Value;
                         if (!string.IsNullOrWhiteSpace(url))
                         {
-                            feeds.Add(url);
+                            if (!PackageFeeds.Contains(url))
+                            {
+                                PackageFeeds.Add(url);
+                            }
                         }
                     }
                 }
             }
         }
 
-        if (feeds.Count == 0)
+        if (PackageFeeds.Count == 0)
         {
-            feeds.Add("http://packages.nuget.org");
+            PackageFeeds.Add("http://packages.nuget.org");
         }
 
-        return feeds;
     }
 
     void ProcessPackageDef(PackageDef packageDef)

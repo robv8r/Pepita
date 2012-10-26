@@ -71,7 +71,7 @@ public partial class Runner
     {
         var urls = new List<string>();
 
-        foreach (var feed in AdditionalFeeds)
+        foreach (var feed in PackageFeeds)
         {
             if (feed.Contains("//"))
             {

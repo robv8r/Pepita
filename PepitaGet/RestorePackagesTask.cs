@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
@@ -13,7 +11,6 @@ namespace PepitaGet
     {
         [Required]
         public string ProjectDirectory { get; set; }
-        public string AdditionalFeeds { get; set; }
         [Required]
         public string SolutionDirectory { get; set; }
 
@@ -30,7 +27,6 @@ namespace PepitaGet
                                  {
                                      ProjectDirectory = ProjectDirectory,
                                      SolutionDirectory = SolutionDirectory,
-                                     AdditionalFeeds = GetFeeds(),
                                      WriteInfo = s => BuildEngine.LogMessageEvent(new BuildMessageEventArgs("\t" + s, "", "Pepita", MessageImportance.High)),
                                  };
                 runner.Execute();
@@ -52,16 +48,6 @@ namespace PepitaGet
             }
             return true;
         }
-
-        List<string> GetFeeds()
-        {
-            if (AdditionalFeeds == null)
-            {
-                return new List<string>();
-            }
-            return AdditionalFeeds.Split(new char[';'], StringSplitOptions.RemoveEmptyEntries).ToList();
-        }
-
 
         void GetProjectPath(TextWriter outputWriter)
         {
