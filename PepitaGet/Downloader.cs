@@ -66,34 +66,32 @@ public partial class Runner
             throw;
         }
     }
+	static bool IsLocalPath(string path)
+	{
+		return new Uri(path).IsFile;
+	}
 
     IEnumerable<string> GetUrls(PackageDef packageDef)
     {
-        var urls = new List<string>();
-
         foreach (var feed in PackageFeeds)
         {
-            if (feed.Contains("//"))
-            {
-                // Online
-                string nugetUrl = feed;
-                if (!nugetUrl.EndsWith("package/"))
-                {
-                    nugetUrl += "package/";
-                }
+	        if (IsLocalPath(feed))
+	        {
+		        // Local
+		        yield return Path.Combine(feed, string.Format("{0}.{1}.nupkg", packageDef.Id, packageDef.Version));
+	        }
+	        else
+	        {
+		        // Online
+		        var nugetUrl = feed;
+		        if (!nugetUrl.EndsWith("/package/"))
+		        {
+			        nugetUrl += "/package/";
+		        }
 
-                nugetUrl = string.Format("{0}/{1}/{2}", nugetUrl, packageDef.Id, packageDef.Version);
-                urls.Add(nugetUrl);
-            }
-            else
-            {
-                // Local
-                string nugetUrl = Path.Combine(feed, string.Format("{0}.{1}.nupkg", packageDef.Id, packageDef.Version));
-                urls.Add(nugetUrl);
-            }
+		        yield return string.Format("{0}/{1}/{2}", nugetUrl, packageDef.Id, packageDef.Version);
+	        }
         }
-
-        return urls;
 
         //return AdditionalFeeds
         //    .Select(source => string.Format("{0}/api/v2/package/{1}/{2}", source, packageDef.Id, packageDef.Version));
