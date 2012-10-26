@@ -58,7 +58,7 @@ public partial class Runner
         System.Diagnostics.Debugger.Launch();
 #endif
 
-        string configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "NuGet", "NuGet.Config");
+        var configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "NuGet", "NuGet.Config");
         if (File.Exists(configPath))
         {
             var doc = XDocument.Load(configPath);
@@ -70,7 +70,7 @@ public partial class Runner
                     var attribute = packageSource.Attribute("value");
                     if (attribute != null)
                     {
-                        string url = attribute.Value;
+                        var url = attribute.Value;
                         if (!string.IsNullOrWhiteSpace(url))
                         {
                             if (!PackageFeeds.Contains(url))
@@ -85,7 +85,7 @@ public partial class Runner
 
         if (PackageFeeds.Count == 0)
         {
-            PackageFeeds.Add("http://packages.nuget.org");
+			PackageFeeds.Add("https://nuget.org/api/v2/package/");
         }
 
     }
