@@ -84,10 +84,12 @@ public partial class Runner
 	        {
 		        // Online
 		        var nugetUrl = feed;
-		        if (!nugetUrl.EndsWith("/package/"))
+				nugetUrl = nugetUrl.TrimEnd('/');
+		        if (!nugetUrl.EndsWith("package",StringComparison.OrdinalIgnoreCase))
 		        {
-			        nugetUrl += "/package/";
+			        nugetUrl += "package";
 		        }
+		        nugetUrl += "/";
 
 		        yield return string.Format("{0}/{1}/{2}", nugetUrl, packageDef.Id, packageDef.Version);
 	        }
