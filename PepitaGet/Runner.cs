@@ -113,7 +113,7 @@ public partial class Runner
             {
                 return;
             }
-            File.Copy(packageCacheFile, nupkgFilePath);
+            File.Copy(packageCacheFile, nupkgFilePath, true);
 
             ProcessPackage(packagePath, nupkgFilePath);
         }
