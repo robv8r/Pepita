@@ -29,7 +29,7 @@ public partial class Runner
         throw new ExpectedException(errors.ToString());
     }
 
-    private void DownloadFromSpecificSource(string nupkgCacheFilePath, string packageLocation)
+    void DownloadFromSpecificSource(string nupkgCacheFilePath, string packageLocation)
     {
         string tempFileName = null;
 
@@ -40,7 +40,7 @@ public partial class Runner
             var uri = new Uri(packageLocation);
             if (uri.IsFile)
             {
-                File.Copy(packageLocation, nupkgCacheFilePath, true);
+                FileCopy.Copy(packageLocation, nupkgCacheFilePath);
             }
             else
             {
@@ -52,7 +52,7 @@ public partial class Runner
 
                     
                     webClient.DownloadFile(packageLocation, tempFileName);
-                    File.Copy(tempFileName, nupkgCacheFilePath, true);
+                    FileCopy.Copy(tempFileName, nupkgCacheFilePath);
                 }
             }
         }

@@ -4,7 +4,7 @@ using System.IO.Packaging;
 
 public partial class Runner
 {
-    private void CreatePart(Package package, string filePath, Stream sourceStream)
+    void CreatePart(Package package, string filePath, Stream sourceStream)
     {
 
         filePath = filePath.Replace(PackageDirectory, "").TrimStart('\\');

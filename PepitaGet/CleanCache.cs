@@ -18,7 +18,10 @@ public partial class Runner
         {
             try
             {
-                file.Delete();
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
             }
             catch (Exception exception)
             {

@@ -54,10 +54,6 @@ public partial class Runner
     {
         PackageFeeds = new List<string>();
 
-#if DEBUG
-        System.Diagnostics.Debugger.Launch();
-#endif
-
         var configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "NuGet", "NuGet.Config");
         if (File.Exists(configPath))
         {
@@ -109,13 +105,12 @@ public partial class Runner
             // Resolve relative paths
             nupkgFilePath = Path.GetFullPath(nupkgFilePath);
 
-            if (Directory.Exists(nupkgFilePath))
+            bool didCopy;
+            FileCopy.Copy(packageCacheFile, nupkgFilePath, out didCopy);
+            if (didCopy)
             {
-                return;
+                ProcessPackage(packagePath, nupkgFilePath);
             }
-            File.Copy(packageCacheFile, nupkgFilePath, true);
-
-            ProcessPackage(packagePath, nupkgFilePath);
         }
         catch (Exception)
         {
