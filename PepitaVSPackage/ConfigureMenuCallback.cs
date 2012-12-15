@@ -51,8 +51,9 @@ public class ConfigureMenuCallback
         var toolsDirectory = CreateToolsDirectory(solutionDirectory);
         ExportBuildFile(toolsDirectory);
         //@"$(SolutionDir)\Tools\PepitaGet\"
-        var relativePath = PathEx.MakeRelativePath(project.FullName, toolsDirectory);
-        InjectIntoProject(project.FullName, Path.Combine("$(ProjectPath)", relativePath));
+	    var projectDir = Path.GetDirectoryName(project.FullName);
+	    var relativePath = PathEx.MakeRelativePath(projectDir, toolsDirectory);
+        InjectIntoProject(project.FullName, Path.Combine("$(ProjectDir)", relativePath));
     }
 
     string CreateToolsDirectory(string solutionDirectory)

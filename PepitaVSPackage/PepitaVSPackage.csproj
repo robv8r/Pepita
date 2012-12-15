@@ -117,9 +117,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
-    <None Include="FodyWeavers.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\PepitaGet\NugetConfigReader.cs">
@@ -250,5 +248,5 @@
   <Target Name="ConfigureVsSDKBuild">
     <EnvironmentVariable Variable="VsSDKToolsPath" Value="$(VsSDKInstall)" />
   </Target>
-  <Import Project="$(ProjectPath)\..\..\Tools\Fody\Fody.targets" />
+  <Import Project="$(ProjectDir)\..\Tools\Fody\Fody.targets" />
 </Project>
