@@ -72,4 +72,5 @@
     <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(SolutionDir)ForSample" />
   </Target>
   <Import Project="$(ProjectDir)\..\Tools\Fody\Fody.targets" />
+  <Import Project="$(ProjectDir)\..\Tools\Pepita\PepitaGet.targets" />
 </Project>

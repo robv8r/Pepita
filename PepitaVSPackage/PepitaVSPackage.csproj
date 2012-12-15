@@ -249,4 +249,5 @@
     <EnvironmentVariable Variable="VsSDKToolsPath" Value="$(VsSDKInstall)" />
   </Target>
   <Import Project="$(ProjectDir)\..\Tools\Fody\Fody.targets" />
+  <Import Project="$(ProjectDir)\..\Tools\Pepita\PepitaGet.targets" />
 </Project>
