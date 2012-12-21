@@ -158,10 +158,6 @@ public partial class Runner
         var fullPath = Path.GetFullPath(Path.Combine(packagePath, "." + originalString));
         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
-        if (Directory.Exists(fullPath))
-        {
-            return;
-        }
         using (var stream = part.GetStream())
         using (var output = File.OpenWrite(fullPath))
         {
