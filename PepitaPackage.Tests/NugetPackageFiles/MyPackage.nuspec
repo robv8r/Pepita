@@ -4,10 +4,10 @@
     <id>$id$</id>
     <version>$version$</version>
     <title />
-    <authors></authors>
+    <authors>me</authors>
     <owners />
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description></description>
+    <description>because</description>
     <summary />
   </metadata>
 </package>

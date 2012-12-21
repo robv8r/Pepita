@@ -24,6 +24,7 @@ public partial class Runner : IDisposable
         WriteManifest();
         WriteFiles();
         WriteMetadata();
+		package.Flush();
     }
 
     void CreatePackage()

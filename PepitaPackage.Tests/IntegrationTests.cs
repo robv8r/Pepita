@@ -17,15 +17,17 @@ namespace PepitaPackage.Tests
 
             var packagePath = Path.Combine(Environment.CurrentDirectory, "NugetPackageFiles");
             packagePath = Path.GetFullPath(packagePath);
-            var runner = new Runner
-                             {
-                                 PackageDirectory = packagePath,
-                                 MetadataAssembly="Standard.dll",
-                                 WriteInfo = s => Debug.WriteLine(s)
-                             };
-            runner.Execute();
+			using (var runner = new Runner
+				{
+					PackageDirectory = packagePath,
+					MetadataAssembly = "Standard.dll",
+					WriteInfo = s => Debug.WriteLine(s)
+				})
+	        {
+		        runner.Execute();
+	        }
 
-            var outputFile = Path.Combine(packagePath, "MyPackage.1.0.nupkg");
+	        var outputFile = Path.Combine(packagePath, "MyPackage.1.0.nupkg");
             var expectedFIle = Path.Combine(Environment.CurrentDirectory, "MyPackage.1.0.nupkg ");
 
             using (var package1 = Package.Open(expectedFIle))
@@ -49,18 +51,19 @@ namespace PepitaPackage.Tests
             }
         }
 
-        public string GetFileHash(PackagePart part)
-        {
-            using (var inputStream = part.GetStream())
-            using (var md5 = new MD5CryptoServiceProvider())
-            {   var hash = md5.ComputeHash(inputStream);
-                var sb = new StringBuilder();
-                foreach (var b in hash)
-                {
-                    sb.Append(string.Format("{0:X2}", b));
-                }
-                return sb.ToString();
-            }
-        }
+	    public string GetFileHash(PackagePart part)
+	    {
+		    using (var inputStream = part.GetStream())
+		    using (var md5 = new MD5CryptoServiceProvider())
+		    {
+			    var hash = md5.ComputeHash(inputStream);
+			    var sb = new StringBuilder();
+			    foreach (var b in hash)
+			    {
+				    sb.Append(string.Format("{0:X2}", b));
+			    }
+			    return sb.ToString();
+		    }
+	    }
     }
 }
