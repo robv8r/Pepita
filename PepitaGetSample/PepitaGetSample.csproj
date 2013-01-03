@@ -38,6 +38,9 @@
     <Reference Include="FluentValidation">
       <HintPath>..\packages\FluentValidation.3.1.0.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
+    <Reference Include="MethodTimer">
+      <HintPath>..\packages\MethodTimer.Fody.1.7.0.0\lib\portable-net4+sl4+wp7+win8\MethodTimer.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -51,6 +54,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -65,4 +69,5 @@
   <Target Name="BeforeBuild">
     <PepitaGet.WeavingTask />
   </Target>
+  <Import Project="$(ProjectDir)\..\Tools\Fody\Fody.targets" />
 </Project>

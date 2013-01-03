@@ -6,9 +6,6 @@ using Microsoft.Build.Utilities;
 
 namespace PepitaPackage
 {
-    public class WeavingTask : CreatePackageTask 
-    {
-    }
     public class CreatePackageTask : Task
     {
         public string NuGetBuildDirectory { get; set; }

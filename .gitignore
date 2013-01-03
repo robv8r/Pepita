@@ -13,6 +13,8 @@
 *.ncrunchsolution
 *.ncrunchproject
 
+*.DotSettings
+
 # Build results
 [Dd]ebug/
 [Rr]elease/

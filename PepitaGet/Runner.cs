@@ -151,6 +151,8 @@ public partial class Runner
     void ProcessPart(string packagePath, PackagePart part)
     {
         var originalString = part.Uri.OriginalString;
+
+       originalString = Uri.UnescapeDataString(originalString);
         if (originalString.StartsWith("/_rels") || originalString.StartsWith("/package"))
         {
             return;

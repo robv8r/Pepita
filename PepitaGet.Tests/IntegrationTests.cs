@@ -12,18 +12,16 @@ namespace PepitaGet.Tests
         [Test]
         public void GetPackages()
         {
-            var projectPath = Path.Combine(Environment.CurrentDirectory, "../../FakeSolution/FakeProject");
-            var packagesPath = Path.Combine(Environment.CurrentDirectory, "../../FakeSolution/Packages");
-            var solutionPath = Path.Combine(Environment.CurrentDirectory, "../../FakeSolution");
-
-            if (Directory.Exists(packagesPath))
+            var projectDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "../../../"), "PepitaGetSample");
+            var solutionPath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../FakeSolution"));
+            if (Directory.Exists(solutionPath))
             {
-                Directory.Delete(packagesPath, true);
+                Directory.Delete(solutionPath, true);
             }
-            Directory.CreateDirectory(packagesPath);
+
             new Runner
                 {
-                    ProjectDirectory = projectPath,
+                    ProjectDirectory = projectDir,
                     WriteInfo = Console.WriteLine,
                     SolutionDirectory = solutionPath 
                 }.Execute();
