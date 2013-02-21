@@ -7,21 +7,20 @@ public static class ProjectKind
 
     public static bool IsSolutionFolderKind(string kind)
     {
-        return kind.ToUpperInvariant() == SolutionFolderKind;
+        return kind == SolutionFolderKind;
     }
 
     public static bool IsSupportedProjectKind(string kind)
     {
-        var upperInvariant = kind.ToUpperInvariant();
-        if (CSharpProjectKind == upperInvariant)
+        if (CSharpProjectKind == kind)
         {
             return true;
         }
-        if (VBProjectKind == upperInvariant)
+        if (VBProjectKind == kind)
         {
             return true;
         }
-        if (FSharpProjectKind == upperInvariant)
+        if (FSharpProjectKind == kind)
         {
             return true;
         }

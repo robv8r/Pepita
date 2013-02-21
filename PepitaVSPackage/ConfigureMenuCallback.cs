@@ -48,38 +48,11 @@ public class ConfigureMenuCallback
     {
         var dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
         var solutionDirectory = Path.GetDirectoryName(dte.Solution.FullName);
-        var toolsDirectory = CreateToolsDirectory(solutionDirectory);
+        var toolsDirectory = Path.Combine(solutionDirectory, @"Tools\Pepita");
         ExportBuildFile(toolsDirectory);
-        //@"$(SolutionDir)\Tools\PepitaGet\"
-	    var projectDir = Path.GetDirectoryName(project.FullName);
-	    var relativePath = PathEx.MakeRelativePath(projectDir, toolsDirectory);
-        InjectIntoProject(project.FullName, Path.Combine("$(ProjectDir)", relativePath));
+        var relativePath = PathEx.MakeRelativePath(solutionDirectory, toolsDirectory);
+        InjectIntoProject(project.FullName, Path.Combine("$(SolutionDir)", relativePath));
     }
-
-    string CreateToolsDirectory(string solutionDirectory)
-    {
-        var pepitaGetDirectory = PepitaGetDirectoryFinder.TreeWalkForToolsPepitaGetDir(solutionDirectory);
-        if (pepitaGetDirectory != null)
-        {
-            return pepitaGetDirectory;
-        }
-        var packagesPath = NugetConfigReader.GetPackagesPathFromConfig(solutionDirectory);
-
-        if (packagesPath != null)
-        {
-            pepitaGetDirectory = Path.Combine(Directory.GetParent(packagesPath).FullName, @"Tools\Pepita");
-        }
-        else
-        {
-            pepitaGetDirectory = Path.Combine(solutionDirectory, @"Tools\Pepita");
-        }
-        if (!Directory.Exists(pepitaGetDirectory))
-        {
-            Directory.CreateDirectory(pepitaGetDirectory);
-        }
-        return pepitaGetDirectory;
-    }
-
 
     void InjectIntoProject(string projectFilePath, string pepitaGetToolsDirectory)
     {
