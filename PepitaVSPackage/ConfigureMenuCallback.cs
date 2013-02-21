@@ -48,19 +48,48 @@ public class ConfigureMenuCallback
     {
         var dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
         var solutionDirectory = Path.GetDirectoryName(dte.Solution.FullName);
-        var toolsDirectory = Path.Combine(solutionDirectory, @"Tools\Pepita");
+        bool isSolutionToolsDir;
+        var toolsDirectory = CreateToolsDirectory(solutionDirectory, out isSolutionToolsDir);
+
         ExportBuildFile(toolsDirectory);
-        var relativePath = PathEx.MakeRelativePath(solutionDirectory, toolsDirectory);
-        InjectIntoProject(project.FullName, Path.Combine("$(SolutionDir)", relativePath));
+        //@"$(SolutionDir)\Tools\PepitaGet\"
+        if (isSolutionToolsDir)
+        {
+            InjectIntoProject(project.FullName, @"$(SolutionDir)Tools\Pepita");   
+        }
+        else
+        {
+            var projectDir = Path.GetDirectoryName(project.FullName);
+            var relativePath = PathEx.MakeRelativePath(projectDir, toolsDirectory);
+            InjectIntoProject(project.FullName, Path.Combine("$(ProjectDir)", relativePath));   
+        }
     }
+
+    string CreateToolsDirectory(string solutionDirectory, out bool isSolutionToolsDir)
+    {
+        var solutionToolsDir = Path.Combine(solutionDirectory, @"Tools\Pepita");
+        var pepitaGetDirectory = PepitaGetDirectoryFinder.TreeWalkForToolsPepitaGetDir(solutionDirectory);
+        if (pepitaGetDirectory != null)
+        {
+            isSolutionToolsDir = pepitaGetDirectory == solutionToolsDir;
+            return pepitaGetDirectory;
+        }
+        isSolutionToolsDir = true;
+        if (!Directory.Exists(solutionToolsDir))
+        {
+            Directory.CreateDirectory(solutionToolsDir);
+        }
+        return solutionToolsDir;
+    }
+
 
     void InjectIntoProject(string projectFilePath, string pepitaGetToolsDirectory)
     {
         var projectInjector = new ProjectInjector
-                                  {
-                                      ProjectFile = projectFilePath,
-                                      PepitaGetToolsDirectory = pepitaGetToolsDirectory 
-                                  };
+        {
+            ProjectFile = projectFilePath,
+            PepitaGetToolsDirectory = pepitaGetToolsDirectory
+        };
         projectInjector.Execute();
     }
 

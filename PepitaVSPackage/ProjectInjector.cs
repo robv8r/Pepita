@@ -19,6 +19,7 @@ public class ProjectInjector
 
     void InjectImport()
     {
+
         // <Import Project="$(SolutionDir)\Tools\Pepita\PepitaGet.targets" />
         var imports = xDocument.BuildDescendants("Import").ToList();
         var exists = imports
@@ -34,5 +35,15 @@ public class ProjectInjector
         var importAttribute = new XAttribute("Project", Path.Combine(PepitaGetToolsDirectory, "PepitaGet.targets"));
         xDocument.Root.Add(new XElement(MsBuildXmlExtensions.BuildNamespace + "Import", importAttribute));
 
+        var nuget = imports
+            .Where(x =>
+            {
+                var xAttribute = x.Attribute("Project");
+                return xAttribute != null && xAttribute.Value.EndsWith("nuget.targets");
+            });
+        foreach (var xElement in nuget)
+        {
+            xElement.Remove();
+        }
     }
 }

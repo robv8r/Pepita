@@ -29,8 +29,6 @@ public class ProjectInjectorTests
 
     }
     [Test]
-    [Ignore]
-    //TODO: add support for removing nuget
     public void WithNoWeavingAndNuget()
     {
         var sourceProjectFile = Path.GetFullPath(@"TestProjects\ProjectWithNoWeavingAndNuget.csproj");
