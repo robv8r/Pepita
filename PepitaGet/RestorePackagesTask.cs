@@ -21,8 +21,6 @@ namespace PepitaGet
 
             try
             {
-                GetProjectPath(Console.Out);
-
                 var runner = new Runner
                                  {
                                      ProjectDirectory = ProjectDirectory,
@@ -49,18 +47,5 @@ namespace PepitaGet
             return true;
         }
 
-        void GetProjectPath(TextWriter outputWriter)
-        {
-            if (ProjectDirectory == null)
-            {
-                outputWriter.WriteLine("\tNo parameter provided so using Environment.CurrentDirectory '{0}' as ProjectDir.", Environment.CurrentDirectory);
-                ProjectDirectory = Environment.CurrentDirectory;
-            }
-            //trim trailing quotes because MSBuild is a POS
-            if (!Directory.Exists(ProjectDirectory))
-            {
-                throw new ExpectedException(string.Format("Could not find path '{0}'", ProjectDirectory));
-            }
-        }
     }
 }
