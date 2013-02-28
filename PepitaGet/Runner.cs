@@ -17,6 +17,7 @@ public partial class Runner
     public string SolutionDirectory;
     public List<string> PackageFeeds; 
 
+	
     public void GetCachePath()
     {
         CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NuGet","Cache");
