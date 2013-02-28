@@ -10,7 +10,7 @@ public partial class Runner
         {
             return;
         }
-        WriteInfo("Cleaning Cache");
+		WriteInfo("\tCleaning Cache");
         foreach (var file in Directory.GetFiles(CachePath, "*.nupkg")
             .Select(s => new FileInfo(s))
             .OrderByDescending(s => s.LastWriteTime)
@@ -26,7 +26,7 @@ public partial class Runner
             catch (Exception exception)
             {
                 //Dont care about delete fail. Will try again next time
-                WriteInfo(string.Format("Failed to delete '{0}' from cache. Exception: {1}", file.FullName, exception));
+				WriteInfo(string.Format("\tFailed to delete '{0}' from cache. Exception: {1}", file.FullName, exception));
             }
         }
     }

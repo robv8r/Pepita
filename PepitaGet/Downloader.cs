@@ -35,7 +35,7 @@ public partial class Runner
 
         try
         {
-            WriteInfo("Downloading " + packageLocation);
+			WriteInfo("\tDownloading " + packageLocation);
 
             var uri = new Uri(packageLocation);
             if (uri.IsFile)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
 using System.Xml.Linq;
@@ -10,6 +11,7 @@ public partial class Runner
     public string ProjectDirectory;
     public string PackagesPath;
     public Action<string> WriteInfo = x => { };
+    public Action<string> WriteError = x => { };
     public string CachePath;
     bool cacheCleanRequired;
     public string SolutionDirectory;
@@ -18,39 +20,66 @@ public partial class Runner
     public void GetCachePath()
     {
         CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NuGet","Cache");
-        WriteInfo("Cache path is " + CachePath);
+		WriteInfo("\tCache path is " + CachePath);
         Directory.CreateDirectory(CachePath);
     }
 
-    public void Execute()
-    {
-        GetAllFeeds();
+	public bool Execute()
+	{
+		var stopwatch = Stopwatch.StartNew();
+		WriteInfo(string.Format("Pepita (version {0}) Executing", GetType().Assembly.GetName().Version));
 
-        GetCachePath();
+		try
+		{
+			Inner();
+			return true;
+		}
+		catch (ExpectedException expectedException)
+		{
+			WriteError(expectedException.Message);
+			return false;
+		}
+		catch (Exception exception)
+		{
+			WriteError(exception.ToString());
+			return false;
+		}
+		finally
+		{
+			stopwatch.Stop();
+			WriteInfo(string.Format("\tFinished ({0}ms)", stopwatch.ElapsedMilliseconds));
+		}
+	}
 
-        var packagesPath = NugetConfigReader.GetPackagesPathFromConfig(ProjectDirectory);
-        if (packagesPath == null)
-        {
-            packagesPath = Path.Combine(SolutionDirectory, "Packages");
-        }
+	void Inner()
+	{
+		GetAllFeeds();
 
-        PackagesPath = Path.GetFullPath(packagesPath);
+		GetCachePath();
 
-        WriteInfo("Using PackagesPath: " + PackagesPath);
-        var projectPackagesConfigPath = Path.Combine(ProjectDirectory, "packages.config");
-        foreach (var packageDef in PackageDefReader.PackageDefs(projectPackagesConfigPath))
-        {
-            ProcessPackageDef(packageDef);
-        }
-        var solutionPackagesConfigPath = Path.Combine(SolutionDirectory, ".nuget", "packages.config");
-        foreach (var packageDef in PackageDefReader.PackageDefs(solutionPackagesConfigPath))
-        {
-            ProcessPackageDef(packageDef);
-        }
-        CleanCache();
-    }
+		var packagesPath = NugetConfigReader.GetPackagesPathFromConfig(ProjectDirectory);
+		if (packagesPath == null)
+		{
+			packagesPath = Path.Combine(SolutionDirectory, "Packages");
+		}
 
-    void GetAllFeeds()
+		PackagesPath = Path.GetFullPath(packagesPath);
+
+		WriteInfo("\tUsing PackagesPath: " + PackagesPath);
+		var projectPackagesConfigPath = Path.Combine(ProjectDirectory, "packages.config");
+		foreach (var packageDef in PackageDefReader.PackageDefs(projectPackagesConfigPath))
+		{
+			ProcessPackageDef(packageDef);
+		}
+		var solutionPackagesConfigPath = Path.Combine(SolutionDirectory, ".nuget", "packages.config");
+		foreach (var packageDef in PackageDefReader.PackageDefs(solutionPackagesConfigPath))
+		{
+			ProcessPackageDef(packageDef);
+		}
+		CleanCache();
+	}
+
+	void GetAllFeeds()
     {
         PackageFeeds = new List<string>();
 
@@ -91,7 +120,7 @@ public partial class Runner
         var packagePath = Path.Combine(PackagesPath, packageDef.Id + "." + packageDef.Version);
         if (Directory.Exists(packagePath))
         {
-            WriteInfo("Already exists so skipped " + packagePath);
+			WriteInfo("\tAlready exists so skipped " + packagePath);
             return;
         }
 
@@ -122,12 +151,11 @@ public partial class Runner
 
     string GetPackageCacheFile(PackageDef packageDef)
     {
-
         var nupkgCacheFilePath = Path.Combine(CachePath, string.Format("{0}.{1}.nupkg", packageDef.Id, packageDef.Version));
 
         if (File.Exists(nupkgCacheFilePath))
         {
-            WriteInfo("Found in cache " + nupkgCacheFilePath);
+			WriteInfo("\tFound in cache " + nupkgCacheFilePath);
             File.SetLastWriteTime(nupkgCacheFilePath, DateTime.Now);
             return nupkgCacheFilePath;
         }
