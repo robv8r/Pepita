@@ -65,9 +65,5 @@
     <Compile Include="Class1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <UsingTask TaskName="PepitaGet.WeavingTask" AssemblyFile="..\ForSample\PepitaGet.dll" />
-  <Target Name="BeforeBuild">
-    <PepitaGet.WeavingTask />
-  </Target>
   <Import Project="$(ProjectDir)\..\Tools\Fody\Fody.targets" />
 </Project>
