@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Packaging;
 using System.Net;
 using System.Linq;
 using System.Text;
@@ -49,9 +50,10 @@ public partial class Runner
                     webClient.Credentials = CredentialCache.DefaultNetworkCredentials;
 
                     tempFileName = Path.GetTempFileName();
-
                     
                     webClient.DownloadFile(packageLocation, tempFileName);
+                    using (Package.Open(tempFileName)){}
+                    
                     FileCopy.Copy(tempFileName, nupkgCacheFilePath);
                 }
             }
