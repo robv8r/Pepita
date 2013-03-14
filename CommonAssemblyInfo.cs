@@ -2,5 +2,5 @@
  
 [assembly: AssemblyTitle("Pepita")]
 [assembly: AssemblyProduct("Pepita")]
-[assembly: AssemblyVersion("1.14.0.0")]
-[assembly: AssemblyFileVersion("1.14.0.0")]
+[assembly: AssemblyVersion("1.15.1.0")]
+[assembly: AssemblyFileVersion("1.15.1.0")]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
+using System.Threading;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -118,13 +119,30 @@ public partial class Runner
 
     void ProcessPackageDef(PackageDef packageDef)
     {
+
         var packagePath = Path.Combine(PackagesPath, packageDef.Id + "." + packageDef.Version);
         if (Directory.Exists(packagePath))
         {
-			WriteInfo("\tAlready exists so skipped " + packagePath);
+            WriteInfo("\tAlready exists so skipped " + packagePath);
             return;
         }
 
+        using (var mutex = new Mutex(false, GetMutexName(packagePath)))
+        {
+            mutex.WaitOne();
+            try
+            {
+                SingleProcessPackageDef(packageDef, packagePath);
+            }
+            finally 
+            {
+                mutex.ReleaseMutex();
+            }
+        }
+    }
+
+    void SingleProcessPackageDef(PackageDef packageDef, string packagePath)
+    {
         var packageCacheFile = GetPackageCacheFile(packageDef);
 
         Directory.CreateDirectory(packagePath);
@@ -135,18 +153,19 @@ public partial class Runner
             // Resolve relative paths
             nupkgFilePath = Path.GetFullPath(nupkgFilePath);
 
-            bool didCopy;
-            FileCopy.Copy(packageCacheFile, nupkgFilePath, out didCopy);
-            if (didCopy)
-            {
-                ProcessPackage(packagePath, nupkgFilePath);
-            }
+            File.Copy(packageCacheFile, nupkgFilePath, true);
+            ProcessPackage(packagePath, nupkgFilePath);
         }
         catch (Exception)
         {
             Directory.Delete(packagePath, true);
             throw;
         }
+    }
+
+    static string GetMutexName(string packagePath)
+    {
+        return packagePath.Replace('\\', '_').Replace('/', '_');
     }
 
 
@@ -168,7 +187,7 @@ public partial class Runner
 
     void ProcessPackage(string packagePath, string nupkgFilePath)
     {
-        using (var package = Package.Open(nupkgFilePath))
+        using (var package = Package.Open(nupkgFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
         {
             foreach (var part in package.GetParts())
             {

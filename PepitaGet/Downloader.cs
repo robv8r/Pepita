@@ -41,7 +41,7 @@ public partial class Runner
             var uri = new Uri(packageLocation);
             if (uri.IsFile)
             {
-                FileCopy.Copy(packageLocation, nupkgCacheFilePath);
+                File.Copy(packageLocation, nupkgCacheFilePath, true);
             }
             else
             {
@@ -50,11 +50,13 @@ public partial class Runner
                     webClient.Credentials = CredentialCache.DefaultNetworkCredentials;
 
                     tempFileName = Path.GetTempFileName();
-                    
+
                     webClient.DownloadFile(packageLocation, tempFileName);
-                    using (Package.Open(tempFileName)){}
-                    
-                    FileCopy.Copy(tempFileName, nupkgCacheFilePath);
+                    using (Package.Open(tempFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                    }
+
+                    File.Copy(tempFileName, nupkgCacheFilePath, true);
                 }
             }
         }
