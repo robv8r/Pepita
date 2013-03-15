@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -127,18 +131,26 @@ public partial class Runner
             return;
         }
 
-        using (var mutex = new Mutex(false, GetMutexName(packagePath)))
+        bool createdNew;
+        using (var mutex = new Mutex(true, GetMutexName(packagePath), out createdNew))
         {
-            mutex.WaitOne();
             try
             {
-                SingleProcessPackageDef(packageDef, packagePath);
+                if (createdNew)
+                {
+                    SingleProcessPackageDef(packageDef, packagePath);
+                }
+                else
+                {
+                    mutex.WaitOne(TimeSpan.FromMinutes(2));
+                }
             }
-            finally 
+            finally
             {
                 mutex.ReleaseMutex();
             }
         }
+
     }
 
     void SingleProcessPackageDef(PackageDef packageDef, string packagePath)
@@ -165,7 +177,12 @@ public partial class Runner
 
     static string GetMutexName(string packagePath)
     {
-        return packagePath.Replace('\\', '_').Replace('/', '_');
+        var pathBytes = Encoding.UTF8.GetBytes(packagePath);
+
+        using (var sha256Managed = new SHA256Managed())
+        {
+            return Convert.ToBase64String(sha256Managed.ComputeHash(pathBytes)).ToUpperInvariant();
+        }
     }
 
 
@@ -214,5 +231,6 @@ public partial class Runner
             stream.CopyTo(output);
         }
     }
+
 
 }
