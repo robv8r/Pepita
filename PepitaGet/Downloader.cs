@@ -10,7 +10,6 @@ public partial class Runner
 {
     void Download(PackageDef packageDef, string nupkgCacheFilePath)
     {
-        cacheCleanRequired = true;
         var errors = new StringBuilder("Failed to download. This package may no longer exist on the nuget feed or there is a problem with your internet connection. Errors:");
 
         var addresses = GetUrls(packageDef).ToList();

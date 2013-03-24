@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
-using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -18,7 +16,6 @@ public partial class Runner
     public Action<string> WriteInfo = x => { };
     public Action<string> WriteError = x => { };
     public string CachePath;
-    bool cacheCleanRequired;
     public string SolutionDirectory;
     public List<string> PackageFeeds; 
 
@@ -141,7 +138,7 @@ public partial class Runner
                 }
                 else
                 {
-                    mutex.WaitOne(TimeSpan.FromMinutes(2));
+                    mutex.WaitOne(TimeSpan.FromMinutes(3));
                 }
             }
             finally
