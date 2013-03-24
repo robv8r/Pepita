@@ -56,7 +56,6 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CleanCache.cs" />
     <Compile Include="Downloader.cs" />
     <Compile Include="NugetConfigReader.cs" />
     <Compile Include="ExpectedException.cs" />

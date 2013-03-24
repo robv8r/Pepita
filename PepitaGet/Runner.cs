@@ -82,7 +82,6 @@ public partial class Runner
 		{
 			ProcessPackageDef(packageDef);
 		}
-		CleanCache();
 	}
 
 	void GetAllFeeds()
