@@ -127,7 +127,7 @@
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="AssemblyVersionReader.cs" />
     <Compile Include="ConfigureMenuCallback.cs" />
-    <Compile Include="ContainsPepetaGetChecker.cs" />
+    <Compile Include="ContainsPepitaGetChecker.cs" />
     <Compile Include="CurrentProjectFinder.cs" />
     <Compile Include="CurrentVersion.cs" />
     <Compile Include="DisableMenuCallback.cs" />

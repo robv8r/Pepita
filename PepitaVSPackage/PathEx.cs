@@ -10,10 +10,12 @@ public static class PathEx
         {
             fromPath += Path.DirectorySeparatorChar;
         }
+
         if (toPath.Last() != Path.DirectorySeparatorChar)
         {
             toPath += Path.DirectorySeparatorChar;
         }
+
         var fromUri = new Uri(fromPath);
         var toUri = new Uri(toPath);
 

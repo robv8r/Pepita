@@ -24,10 +24,10 @@ public sealed class PepitaVSPackagePackage : Package
 
             var currentProjectFinder = new CurrentProjectFinder();
             var contentsFinder = new ContentsFinder();
-            var configureMenuCallback = new ConfigureMenuCallback(currentProjectFinder, contentsFinder, exceptionDialog);
-            var messageDisplayer = new MessageDisplayer(errorListProvider);
-            var disableMenuConfigure = new DisableMenuCallback(currentProjectFinder, messageDisplayer, exceptionDialog);
             var containsPepitaGetChecker = new ContainsPepitaGetChecker();
+            var configureMenuCallback = new ConfigureMenuCallback(currentProjectFinder, contentsFinder, exceptionDialog, containsPepitaGetChecker);
+            var messageDisplayer = new MessageDisplayer(errorListProvider);
+            var disableMenuConfigure = new DisableMenuCallback(currentProjectFinder, messageDisplayer, exceptionDialog, containsPepitaGetChecker);
             var menuStatusChecker = new MenuStatusChecker(currentProjectFinder, exceptionDialog, containsPepitaGetChecker);
             new MenuConfigure(configureMenuCallback, disableMenuConfigure, menuCommandService, menuStatusChecker).RegisterMenus();
             var taskFileReplacer = new TaskFileReplacer(messageDisplayer, contentsFinder);

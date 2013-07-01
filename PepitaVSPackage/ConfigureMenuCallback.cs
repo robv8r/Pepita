@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Forms;
+
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 
@@ -10,26 +14,50 @@ public class ConfigureMenuCallback
     ContentsFinder contentsFinder;
     CurrentProjectFinder currentProjectFinder;
     ExceptionDialog exceptionDialog;
+    ContainsPepitaGetChecker containsPepitaGetChecker;
 
-    public ConfigureMenuCallback(CurrentProjectFinder currentProjectFinder, ContentsFinder contentsFinder, ExceptionDialog exceptionDialog)
+    public ConfigureMenuCallback(CurrentProjectFinder currentProjectFinder, ContentsFinder contentsFinder, ExceptionDialog exceptionDialog,
+        ContainsPepitaGetChecker containsPepitaGetChecker)
     {
         this.currentProjectFinder = currentProjectFinder;
         this.exceptionDialog = exceptionDialog;
+        this.containsPepitaGetChecker = containsPepitaGetChecker;
         this.contentsFinder = contentsFinder;
     }
-
 
     public void ConfigureCallback()
     {
         try
         {
             var currentProjects = currentProjectFinder.GetCurrentProjects();
-            if (currentProjects
-                .Any(UnsaveProjectChecker.HasUnsavedPendingChanges))
+            if (currentProjects.Any(UnsaveProjectChecker.HasUnsavedPendingChanges))
             {
                 return;
             }
-            foreach (var project in currentProjects)
+
+            var projectsToConfigure = (from project in currentProjects
+                                       where !containsPepitaGetChecker.HasPepita(project.FullName)
+                                       select project).ToList();
+                                       
+            if (projectsToConfigure.Count <= 0)
+            {
+                return;
+            }
+
+            var messageBoxText = new StringBuilder();
+            messageBoxText.AppendLine(string.Format("Are you sure you want to enable Pepita for the following {0} project(s):", projectsToConfigure.Count));
+            messageBoxText.AppendLine();
+            foreach (var project in projectsToConfigure)
+            {
+                messageBoxText.AppendLine("- " + project.Name);
+            }
+
+            if (MessageBox.Show(messageBoxText.ToString(), "Enable pepita for selected projects?", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+
+            foreach (var project in projectsToConfigure)
             {
                 Configure(project);
             }
@@ -90,6 +118,7 @@ public class ConfigureMenuCallback
             ProjectFile = projectFilePath,
             PepitaGetToolsDirectory = pepitaGetToolsDirectory
         };
+
         projectInjector.Execute();
     }
 
