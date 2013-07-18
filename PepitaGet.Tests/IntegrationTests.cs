@@ -27,6 +27,36 @@ namespace PepitaGet.Tests
                 }.Execute();
         }
 
+        /// <summary>
+        /// A nupkg containing file names including escaped backslashes (%5c) should be extracted correctly, 
+        /// as the official nuget package manager does this, too.
+        /// </summary>
+        [Test]
+        public void Issue6_HandleBackslashesInFileName()
+        {
+            var projectDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "../../../"), "PepitaGetSample");
+            var solutionPath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../FakeSolution"));
+            if (Directory.Exists(solutionPath))
+            {
+                Directory.Delete(solutionPath, true);
+            }
+
+            new Runner
+            {
+                ProjectDirectory = projectDir,
+                WriteInfo = Console.WriteLine,
+                SolutionDirectory = solutionPath
+            }.Execute();
+
+            const string OffensivePackege = "SimpleInjector.Extensions.LifetimeScoping.2.3.1";
+
+            var packageSubdirectory = Path.Combine(solutionPath, "packages", OffensivePackege, "lib", "net40-client");
+            Assert.That(Directory.Exists(packageSubdirectory), "Should have created " + packageSubdirectory);
+
+            var filesInDirectory = Directory.GetFiles(packageSubdirectory).Length;
+            Assert.That(filesInDirectory, Is.GreaterThan(0), "Should have extracted files in to " + packageSubdirectory);
+        }
+
         [Test]
         public void Perf()
         {
