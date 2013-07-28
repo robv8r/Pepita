@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using EnvDTE;
-
 using EnvDTE80;
-
 using Microsoft.VisualStudio.Shell;
 
 public class CurrentProjectFinder
@@ -80,7 +76,7 @@ public class CurrentProjectFinder
 
     private IList<Project> GetSolutionProjects(Solution solution)
     {
-        Projects projects = solution.Projects;
+        var projects = solution.Projects;
         var list = new List<Project>();
         var item = projects.GetEnumerator();
         while (item.MoveNext())

@@ -3,13 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-using EnvDTE;
 
 public class ContainsPepitaGetChecker
 {
     private static XDocument LoadXmlForProject(string projectFile)
     {
-        //HACK: for when VS incorrectly calls configure when no project is avaliable
+        //HACK: for when VS incorrectly calls configure when no project is available
         if (string.IsNullOrWhiteSpace(projectFile))
         {
             return null;

@@ -30,7 +30,7 @@ public class ExceptionExtensionsTests
         }
         catch (Exception exception)
         {
-            throw new Exception("Exceltion1", exception);
+            throw new Exception("Exception1", exception);
         }
     }
 

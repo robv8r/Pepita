@@ -70,12 +70,12 @@ public partial class Runner
 
 		WriteInfo("\tUsing PackagesPath: " + PackagesPath);
 		var projectPackagesConfigPath = Path.Combine(ProjectDirectory, "packages.config");
-		foreach (var packageDef in PackageDefReader.PackageDefs(projectPackagesConfigPath))
+		foreach (var packageDef in PackageDefReader.PackageDefinitions(projectPackagesConfigPath))
 		{
 			ProcessPackageDef(packageDef);
 		}
 		var solutionPackagesConfigPath = Path.Combine(SolutionDirectory, ".nuget", "packages.config");
-		foreach (var packageDef in PackageDefReader.PackageDefs(solutionPackagesConfigPath))
+		foreach (var packageDef in PackageDefReader.PackageDefinitions(solutionPackagesConfigPath))
 		{
 			ProcessPackageDef(packageDef);
 		}

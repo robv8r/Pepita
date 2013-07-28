@@ -26,9 +26,9 @@ public static class ProcessExtensions
 
     public static Process GetParentProcess(IntPtr handle)
     {
-        var pbi = new ProcessBasicInformation();
+        var processBasicInformation = new ProcessBasicInformation();
         int returnLength;
-        var status = NtQueryInformationProcess(handle, 0, ref pbi, Marshal.SizeOf(pbi), out returnLength);
+        var status = NtQueryInformationProcess(handle, 0, ref processBasicInformation, Marshal.SizeOf(processBasicInformation), out returnLength);
         if (status != 0)
         {
             throw new Win32Exception(status);
@@ -36,7 +36,7 @@ public static class ProcessExtensions
 
         try
         {
-            return Process.GetProcessById(pbi.InheritedFromUniqueProcessId.ToInt32());
+            return Process.GetProcessById(processBasicInformation.InheritedFromUniqueProcessId.ToInt32());
         }
         catch (ArgumentException)
         {

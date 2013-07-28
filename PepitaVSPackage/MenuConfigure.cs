@@ -10,7 +10,7 @@ public class MenuConfigure
     DisableMenuCallback disableMenuCallback;
     IMenuCommandService menuCommandService;
     MenuStatusChecker menuStatusChecker;
-    Guid cmdSet = new Guid("25097461-9b2d-42c3-8668-1132922b98b8");
+    Guid commandSet = new Guid("25097461-9b2d-42c3-8668-1132922b98b8");
 
     public MenuConfigure(ConfigureMenuCallback configureMenuCallback, DisableMenuCallback disableMenuCallback, IMenuCommandService menuCommandService, MenuStatusChecker menuStatusChecker)
     {
@@ -28,7 +28,7 @@ public class MenuConfigure
 
     void CreateDisableCommand()
     {
-        var disableCommandId = new CommandID(cmdSet, 2);
+        var disableCommandId = new CommandID(commandSet, 2);
         disableCommand = new OleMenuCommand(delegate { disableMenuCallback.DisableCallback(); }, disableCommandId)
                              {
                                  Enabled = false
@@ -39,7 +39,7 @@ public class MenuConfigure
  
     void CreateConfigCommand()
     {
-        var configureCommandId = new CommandID(cmdSet, 1);
+        var configureCommandId = new CommandID(commandSet, 1);
         configureCommand = new OleMenuCommand(delegate { configureMenuCallback.ConfigureCallback(); }, configureCommandId);
         configureCommand.BeforeQueryStatus += delegate { menuStatusChecker.ConfigureCommandStatusCheck(configureCommand); };
         menuCommandService.AddCommand(configureCommand);

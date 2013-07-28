@@ -25,7 +25,7 @@ public class DisableMenuCallback
         try
         {
             var projects = currentProjectFinder.GetCurrentProjects();
-            if (projects.Any(UnsaveProjectChecker.HasUnsavedPendingChanges))
+            if (projects.Any(UnSavedProjectChecker.HasUnsavedPendingChanges))
             {
                 return;
             }

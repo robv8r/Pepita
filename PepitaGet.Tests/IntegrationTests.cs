@@ -49,13 +49,13 @@ namespace PepitaGet.Tests
                 SolutionDirectory = solutionPath
             }.Execute();
 
-            const string OffensivePackege = "SimpleInjector.Extensions.LifetimeScoping.2.3.1";
+            const string OffensivePackage = "SimpleInjector.Extensions.LifetimeScoping.2.3.1";
 
-            var packageSubdirectory = Path.Combine(solutionPath, "packages", OffensivePackege, "lib", "net40-client");
-            Assert.That(Directory.Exists(packageSubdirectory), "Should have created " + packageSubdirectory);
+            var packageSubDirectory = Path.Combine(solutionPath, "packages", OffensivePackage, "lib", "net40-client");
+            Assert.That(Directory.Exists(packageSubDirectory), "Should have created " + packageSubDirectory);
 
-            var filesInDirectory = Directory.GetFiles(packageSubdirectory).Length;
-            Assert.That(filesInDirectory, Is.GreaterThan(0), "Should have extracted files in to " + packageSubdirectory);
+            var filesInDirectory = Directory.GetFiles(packageSubDirectory).Length;
+            Assert.That(filesInDirectory, Is.GreaterThan(0), "Should have extracted files in to " + packageSubDirectory);
         }
 
         [Test]

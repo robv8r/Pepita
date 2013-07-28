@@ -1,9 +1,9 @@
 using System.Windows;
 using EnvDTE;
 
-public static class UnsaveProjectChecker
+public static class UnSavedProjectChecker
 {
-    public static bool HasUnsavedPendingChanges(Project project)
+    public static bool HasUnsavedPendingChanges(this Project project)
     {
         if (project.Saved)
         {

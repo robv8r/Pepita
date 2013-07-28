@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 public static class PackageDefReader
 {
-    public static IEnumerable<PackageDef> PackageDefs(string packagesConfigPath)
+    public static IEnumerable<PackageDef> PackageDefinitions(string packagesConfigPath)
     {
         if (!File.Exists(packagesConfigPath))
         {

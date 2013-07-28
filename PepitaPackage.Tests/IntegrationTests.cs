@@ -28,9 +28,9 @@ namespace PepitaPackage.Tests
 	        }
 
 	        var outputFile = Path.Combine(packagePath, "MyPackage.1.0.nupkg");
-            var expectedFIle = Path.Combine(Environment.CurrentDirectory, "MyPackage.1.0.nupkg ");
+            var expectedFile = Path.Combine(Environment.CurrentDirectory, "MyPackage.1.0.nupkg ");
 
-            using (var package1 = Package.Open(expectedFIle))
+            using (var package1 = Package.Open(expectedFile))
             using (var package2 = Package.Open(outputFile))
             {
                 foreach (var part1 in package1.GetParts())

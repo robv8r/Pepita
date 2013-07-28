@@ -3,9 +3,9 @@ using System.Xml.Linq;
 
 public static class XDocExtensions
 {
-    public static XDocument RemoveNamespace(this XDocument xdoc)
+    public static XDocument RemoveNamespace(this XDocument xDocument)
     {
-        foreach (var e in xdoc.Root.DescendantsAndSelf())
+        foreach (var e in xDocument.Root.DescendantsAndSelf())
         {
 
             if (e.Name.Namespace != XNamespace.None)
@@ -18,7 +18,7 @@ public static class XDocExtensions
                 e.ReplaceAttributes(e.Attributes().Select(a => a.IsNamespaceDeclaration ? null : a.Name.Namespace != XNamespace.None ? new XAttribute(XNamespace.None.GetName(a.Name.LocalName), a.Value) : a));
             }
         }
-        return xdoc;
+        return xDocument;
 
     }
     public static string ElementValue(this XContainer xContainer, string name)

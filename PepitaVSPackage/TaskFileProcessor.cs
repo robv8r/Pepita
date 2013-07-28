@@ -33,7 +33,7 @@ public class TaskFileProcessor
         }
         catch (Exception exception)
         {
-            messageDisplayer.ShowError(string.Format("PepitaGet: An exception occured while trying to check for updates.\r\nException: {0}.", exception));
+            messageDisplayer.ShowError(string.Format("PepitaGet: An exception occurred while trying to check for updates.\r\nException: {0}.", exception));
         }
     }
 

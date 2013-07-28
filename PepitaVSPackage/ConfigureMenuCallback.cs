@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -30,7 +29,7 @@ public class ConfigureMenuCallback
         try
         {
             var currentProjects = currentProjectFinder.GetCurrentProjects();
-            if (currentProjects.Any(UnsaveProjectChecker.HasUnsavedPendingChanges))
+            if (currentProjects.Any(UnSavedProjectChecker.HasUnsavedPendingChanges))
             {
                 return;
             }
@@ -126,10 +125,10 @@ public class ConfigureMenuCallback
     {
         foreach (var file in Directory.GetFiles(Path.Combine(contentsFinder.ContentFilesPath, "Pepita")))
         {
-            var destFileName = Path.Combine(toolsDirectory, Path.GetFileName(file));
-            if (!File.Exists(destFileName))
+            var destinationFileName = Path.Combine(toolsDirectory, Path.GetFileName(file));
+            if (!File.Exists(destinationFileName))
             {
-                File.Copy(file, destFileName);
+                File.Copy(file, destinationFileName);
             }
         }
     }
