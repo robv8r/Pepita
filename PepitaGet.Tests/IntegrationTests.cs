@@ -32,6 +32,7 @@ namespace PepitaGet.Tests
         /// as the official nuget package manager does this, too.
         /// </summary>
         [Test]
+        [Explicit]
         public void Issue6_HandleBackslashesInFileName()
         {
             var projectDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "../../../"), "PepitaGetSample");
