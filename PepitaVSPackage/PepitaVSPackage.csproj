@@ -155,7 +155,7 @@
     <Compile Include="SolutionEvents.cs" />
     <Compile Include="TaskFileProcessor.cs" />
     <Compile Include="TaskFileReplacer.cs" />
-    <Compile Include="UnsaveProjectChecker.cs" />
+    <Compile Include="UnSavedProjectChecker.cs" />
     <Compile Include="VersionChecker.cs" />
     <Compile Include="MsBuildXmlExtensions.cs" />
     <Compile Include="XmlExtensions.cs" />
