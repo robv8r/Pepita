@@ -39,6 +39,10 @@ public class ContainsPepitaGetChecker
 
     public bool HasPepita(string projectFile)
     {
+        if (projectFile == null)
+        {
+            return false;
+        }
         var xml = LoadXmlForProject(projectFile);
         if (xml == null)
         {
@@ -52,11 +56,11 @@ public class ContainsPepitaGetChecker
                 return true;
             }
             return xml.BuildDescendants("Import")
-                .Any(x =>
-                {
-                    var xAttribute = x.Attribute("Project");
-                    return xAttribute != null && xAttribute.Value.EndsWith("PepitaGet.targets");
-                });
+                      .Any(x =>
+                          {
+                              var xAttribute = x.Attribute("Project");
+                              return xAttribute != null && xAttribute.Value.EndsWith("PepitaGet.targets");
+                          });
         }
         catch (Exception exception)
         {

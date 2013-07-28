@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="ExceptionHandling\ExceptionWindowModel.cs" />
     <Compile Include="MenuConfigure.cs" />
+    <Compile Include="ProjectExtensions.cs" />
     <Compile Include="ProjectInjector.cs" />
     <Compile Include="ProjectKind.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs" />

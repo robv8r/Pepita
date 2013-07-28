@@ -31,7 +31,7 @@ public class DisableMenuCallback
             }
 
             var projectsToDisable = (from project in projects
-                                     where containsPepitaGetChecker.HasPepita(project.FullName)
+                                     where containsPepitaGetChecker.HasPepita(project.GetPath())
                                      select project).ToList();
 
             if (projectsToDisable.Count <= 0)
@@ -55,7 +55,7 @@ public class DisableMenuCallback
             foreach (var project in projectsToDisable)
             {
                 messageDisplayer.ShowInfo(string.Format("PepitaGet: Removed from the project '{0}'. However no binary files will be removed in case they are being used by other projects.", project.Name));
-                new ProjectRemover(project.FullName);
+                new ProjectRemover(project.GetPath());
             }
         }
         catch (COMException exception)

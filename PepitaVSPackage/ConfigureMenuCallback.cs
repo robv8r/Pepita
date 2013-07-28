@@ -35,7 +35,7 @@ public class ConfigureMenuCallback
             }
 
             var projectsToConfigure = (from project in currentProjects
-                                       where !containsPepitaGetChecker.HasPepita(project.FullName)
+                                       where !containsPepitaGetChecker.HasPepita(project.GetPath())
                                        select project).ToList();
                                        
             if (projectsToConfigure.Count <= 0)
@@ -82,13 +82,13 @@ public class ConfigureMenuCallback
         //@"$(SolutionDir)\Tools\PepitaGet\"
         if (isSolutionToolsDir)
         {
-            InjectIntoProject(project.FullName, @"$(SolutionDir)Tools\Pepita");   
+            InjectIntoProject(project.GetPath(), @"$(SolutionDir)Tools\Pepita");   
         }
         else
         {
-            var projectDir = Path.GetDirectoryName(project.FullName);
+            var projectDir = Path.GetDirectoryName(project.GetPath());
             var relativePath = PathEx.MakeRelativePath(projectDir, toolsDirectory);
-            InjectIntoProject(project.FullName, Path.Combine("$(ProjectDir)", relativePath));   
+            InjectIntoProject(project.GetPath(), Path.Combine("$(ProjectDir)", relativePath));   
         }
     }
 

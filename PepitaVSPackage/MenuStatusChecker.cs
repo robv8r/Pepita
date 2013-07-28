@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.InteropServices;
-
 using Microsoft.VisualStudio.Shell;
 
 public class MenuStatusChecker
@@ -23,7 +22,7 @@ public class MenuStatusChecker
             disableCommand.Enabled = false;
             foreach (var project in currentProjectFinder.GetCurrentProjects())
             {
-                if (containsPepitaGetChecker.HasPepita(project.FullName))
+                if (containsPepitaGetChecker.HasPepita(project.GetPath()))
                 {
                     disableCommand.Enabled = true;
                     return;
@@ -46,7 +45,7 @@ public class MenuStatusChecker
             configureCommand.Enabled = false;
             foreach (var project in currentProjectFinder.GetCurrentProjects())
             {
-                if (!containsPepitaGetChecker.HasPepita(project.FullName))
+                if (!containsPepitaGetChecker.HasPepita(project.GetPath()))
                 {
                     configureCommand.Enabled = true;
                     return;
