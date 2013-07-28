@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 public class ContainsPepitaGetChecker
 {
-    private static XDocument LoadXmlForProject(string projectFile)
+    static XDocument LoadXmlForProject(string projectFile)
     {
         //HACK: for when VS incorrectly calls configure when no project is available
         if (string.IsNullOrWhiteSpace(projectFile))

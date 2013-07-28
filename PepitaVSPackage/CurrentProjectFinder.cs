@@ -44,7 +44,7 @@ public class CurrentProjectFinder
         return projects;
     }
 
-    private IList<Project> GetProjectsForSelectedItem(SelectedItem selectedItem)
+    List<Project> GetProjectsForSelectedItem(SelectedItem selectedItem)
     {
         var projects = new List<Project>();
 
@@ -74,7 +74,7 @@ public class CurrentProjectFinder
         return projects;
     }
 
-    private IList<Project> GetSolutionProjects(Solution solution)
+    List<Project> GetSolutionProjects(Solution solution)
     {
         var projects = solution.Projects;
         var list = new List<Project>();
@@ -100,7 +100,7 @@ public class CurrentProjectFinder
         return list;
     }
 
-    private IList<Project> GetSolutionFolderProjects(Project solutionFolder)
+    List<Project> GetSolutionFolderProjects(Project solutionFolder)
     {
         var projects = new List<Project>();
         for (var i = 1; i <= solutionFolder.ProjectItems.Count; i++)
@@ -125,7 +125,7 @@ public class CurrentProjectFinder
         return projects;
     }
 
-    private bool ShouldIgnoreProject(Project project)
+    bool ShouldIgnoreProject(Project project)
     {
         if (string.Equals(project.Kind, "{66A26720-8FB5-11D2-AA7E-00C04F688DDE}")) // Solution items
         {
