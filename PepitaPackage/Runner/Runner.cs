@@ -34,6 +34,7 @@ public partial class Runner : IDisposable
         package.Close();
         if (TargetDir != null)
         {
+            Directory.CreateDirectory(TargetDir);
             var destFileName = Path.Combine(TargetDir, fileName);
             File.Delete(destFileName);
             File.Move(nupkgPath, destFileName);
