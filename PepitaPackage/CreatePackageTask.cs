@@ -8,21 +8,26 @@ namespace PepitaPackage
 {
     public class CreatePackageTask : Task
     {
-        public string NuGetBuildDirectory { get; set; }
-        public string MetadataAssembly { get; set; }
+        public string NuGetBuildDirectory;
+        public string MetadataAssembly;
+        public string TargetDir;
+        public string Version;
 
         public override bool Execute()
         {
             var stopwatch = Stopwatch.StartNew();
-            BuildEngine.LogMessageEvent(new BuildMessageEventArgs(string.Format("Pepita (version {0}) Executing", GetType().Assembly.GetName().Version), "", "Pepita", MessageImportance.High));
+            BuildEngine.LogMessageEvent(new BuildMessageEventArgs(string.Format("PepitaPackage (version {0}) Executing", GetType().Assembly.GetName().Version), "", "Pepita", MessageImportance.High));
             try
             {
                 ValidatePackageDir();
                 ValidateMetaDataAssembly();
+
                 using (var runner = new Runner
                                         {
                                             PackageDirectory = NuGetBuildDirectory,
                                             MetadataAssembly = MetadataAssembly,
+                                            Version = Version,
+                                            TargetDir = TargetDir,
                                             WriteInfo = s => BuildEngine.LogMessageEvent(new BuildMessageEventArgs("\t" + s, "", "Pepita", MessageImportance.High)),
                                         })
                 {

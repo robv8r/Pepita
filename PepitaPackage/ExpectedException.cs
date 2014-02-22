@@ -1,6 +1,6 @@
 using System;
 
-internal class ExpectedException : Exception
+class ExpectedException : Exception
 {
     public ExpectedException(string message): base(message)
     {

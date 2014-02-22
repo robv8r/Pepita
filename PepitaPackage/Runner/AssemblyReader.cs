@@ -6,9 +6,13 @@ using System.Linq;
 public partial class Runner
 {
 
-    public void ReadAssemblyData()
+    public void SubstituteNuspecContent()
     {
         nuspecContent = File.ReadAllText(nuspecPath);
+        if (Version != null)
+        {
+            nuspecContent = nuspecContent.Replace("$version$", Version);
+        }
         if (MetadataAssembly != null)
         {
             var assemblyPath = GetAssemblyPath();

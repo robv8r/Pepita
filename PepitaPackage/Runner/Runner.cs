@@ -9,27 +9,39 @@ public partial class Runner : IDisposable
 
     public Action<string> WriteInfo = x => { };
     public string MetadataAssembly;
+    public string Version;
     string nuspecContent;
     PackageData packageData;
     Package package;
+    string nupkgPath;
+    public string TargetDir;
 
     public void Execute()
     {
         GetNuspecPath();
 
-        ReadAssemblyData();
+        SubstituteNuspecContent();
 
         GetPackageData();
+
+        var fileName = string.Format("{0}.{1}.nupkg", packageData.Id, packageData.Version);
+        nupkgPath = Path.Combine(PackageDirectory, fileName);
         CreatePackage();
         WriteManifest();
         WriteFiles();
         WriteMetadata();
 		package.Flush();
+        package.Close();
+        if (TargetDir != null)
+        {
+            var destFileName = Path.Combine(TargetDir, fileName);
+            File.Delete(destFileName);
+            File.Move(nupkgPath, destFileName);
+        }
     }
 
     void CreatePackage()
     {
-        var nupkgPath = Path.Combine(PackageDirectory, string.Format("{0}.{1}.nupkg", packageData.Id, packageData.Version));
         File.Delete(nupkgPath);
         package = Package.Open(nupkgPath, FileMode.CreateNew);
     }
