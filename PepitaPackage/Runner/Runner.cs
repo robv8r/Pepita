@@ -35,8 +35,11 @@ public partial class Runner : IDisposable
         if (TargetDir != null)
         {
             Directory.CreateDirectory(TargetDir);
+            foreach (var fileToDelete in Directory.EnumerateFiles(TargetDir, packageData.Id + ".*.nupkg"))
+            {
+                File.Delete(fileToDelete);
+            }
             var destFileName = Path.Combine(TargetDir, fileName);
-            File.Delete(destFileName);
             File.Move(nupkgPath, destFileName);
         }
     }
