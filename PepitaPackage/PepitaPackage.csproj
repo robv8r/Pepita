@@ -34,6 +34,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)Key.snk</AssemblyOriginatorKeyFile>
+    <FodySignAssembly>true</FodySignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <None Include="packages.config" />
