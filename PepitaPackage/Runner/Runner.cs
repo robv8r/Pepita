@@ -39,8 +39,8 @@ public partial class Runner : IDisposable
             {
                 File.Delete(fileToDelete);
             }
-            var destFileName = Path.Combine(TargetDir, fileName);
-            File.Move(nupkgPath, destFileName);
+            var destinationFileName = Path.Combine(TargetDir, fileName);
+            File.Move(nupkgPath, destinationFileName);
         }
     }
 
