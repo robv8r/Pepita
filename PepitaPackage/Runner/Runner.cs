@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.Packaging;
 
-public partial class Runner : IDisposable
+public partial class Runner
 {
     public string PackageDirectory;
     string nuspecPath;
@@ -12,8 +12,6 @@ public partial class Runner : IDisposable
     public string Version;
     string nuspecContent;
     PackageData packageData;
-    Package package;
-    string nupkgPath;
     public string TargetDir;
 
     public void Execute()
@@ -25,13 +23,16 @@ public partial class Runner : IDisposable
         GetPackageData();
 
         var fileName = string.Format("{0}.{1}.nupkg", packageData.Id, packageData.Version);
-        nupkgPath = Path.Combine(PackageDirectory, fileName);
-        CreatePackage();
-        WriteManifest();
-        WriteFiles();
-        WriteMetadata();
-		package.Flush();
-        package.Close();
+        var nupkgPath = Path.Combine(PackageDirectory, fileName);
+        File.Delete(nupkgPath);
+        using (var package = Package.Open(nupkgPath, FileMode.CreateNew))
+        {
+            WriteManifest(package);
+            WriteFiles(package);
+            WriteMetadata(package);
+            package.Flush();
+            package.Close();
+        }
         if (TargetDir != null)
         {
             Directory.CreateDirectory(TargetDir);
@@ -44,13 +45,7 @@ public partial class Runner : IDisposable
         }
     }
 
-    void CreatePackage()
-    {
-        File.Delete(nupkgPath);
-        package = Package.Open(nupkgPath, FileMode.CreateNew);
-    }
-
-    void WriteMetadata()
+    void WriteMetadata(Package package)
     {
         package.PackageProperties.Creator = packageData.Authors;
         package.PackageProperties.Description = packageData.Description;
@@ -71,7 +66,7 @@ public partial class Runner : IDisposable
         nuspecPath = strings[0];
     }
 
-    void WriteFiles()
+    void WriteFiles(Package package)
     {
         foreach (var entry in Directory.GetFiles(PackageDirectory, "*", SearchOption.AllDirectories))
         {
@@ -91,7 +86,7 @@ public partial class Runner : IDisposable
     }
 
 
-    void WriteManifest()
+    void WriteManifest(Package package)
     {
         var uri = PackUriHelper.CreatePartUri(new Uri(Uri.EscapeDataString(Path.GetFileName(nuspecPath)), UriKind.Relative));
 
@@ -108,13 +103,4 @@ public partial class Runner : IDisposable
         }
     }
 
-
-    public void Dispose()
-    {
-        if (package != null)
-        {
-            package.Close();
-        }
-
-    }
 }

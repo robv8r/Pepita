@@ -22,17 +22,15 @@ namespace PepitaPackage
                 ValidatePackageDir();
                 ValidateMetaDataAssembly();
 
-                using (var runner = new Runner
-                                        {
-                                            PackageDirectory = NuGetBuildDirectory,
-                                            MetadataAssembly = MetadataAssembly,
-                                            Version = Version,
-                                            TargetDir = TargetDir,
-                                            WriteInfo = s => BuildEngine.LogMessageEvent(new BuildMessageEventArgs("\t" + s, "", "Pepita", MessageImportance.High)),
-                                        })
-                {
+                var runner = new Runner
+                    {
+                        PackageDirectory = NuGetBuildDirectory,
+                        MetadataAssembly = MetadataAssembly,
+                        Version = Version,
+                        TargetDir = TargetDir,
+                        WriteInfo = s => BuildEngine.LogMessageEvent(new BuildMessageEventArgs("\t" + s, "", "Pepita", MessageImportance.High)),
+                    };
                     runner.Execute();
-                }
             }
             catch (ExpectedException expectedException)
             {

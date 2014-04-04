@@ -12,24 +12,21 @@ public class IntegrationTests
     [Test]
     public void Execute()
     {
-
         var packagePath = Path.Combine(Environment.CurrentDirectory, "NugetPackageFiles");
         packagePath = Path.GetFullPath(packagePath);
-        using (var runner = new Runner
-        {
-            PackageDirectory = packagePath,
-            MetadataAssembly = "Standard.dll",
-            WriteInfo = s => Debug.WriteLine(s)
-        })
-        {
-            runner.Execute();
-        }
+        var runner = new Runner
+            {
+                PackageDirectory = packagePath,
+                MetadataAssembly = "Standard.dll",
+                WriteInfo = s => Debug.WriteLine(s)
+            };
+        runner.Execute();
 
-        var outputFile = Path.Combine(packagePath, "MyPackage.1.0.nupkg");
-        var expectedFile = Path.Combine(Environment.CurrentDirectory, "MyPackage.1.0.nupkg ");
+        var outputFile = Path.Combine(packagePath, "Standard.1.0.0.0.nupkg");
+        var expectedFile = Path.Combine(Environment.CurrentDirectory, "MyPackage.1.0.0.0.nupkg ");
 
-        using (var package1 = Package.Open(expectedFile))
-        using (var package2 = Package.Open(outputFile))
+        using (var package1 = Package.Open(expectedFile, FileMode.Open))
+        using (var package2 = Package.Open(outputFile, FileMode.Open))
         {
             foreach (var part1 in package1.GetParts())
             {
