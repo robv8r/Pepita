@@ -83,6 +83,9 @@
     <Content Include="NugetPackageFiles\lib\sl\Silverlight.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="NugetPackageFiles\tools\Dir with spaces\File with spaces.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="NugetPackageFiles\tools\Tool.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
