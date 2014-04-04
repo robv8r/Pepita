@@ -1,8 +1,5 @@
 A few small [nuget](http://nuget.org/) utilities 
 
-## Usage
-
-See [PepitaGet Sample Usage](https://github.com/SimonCropp/Pepita/wiki/PepitaGetSampleUsage) for an introduction on using PepitaGet.
 
 # PepitaPackage
 

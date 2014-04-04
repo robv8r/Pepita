@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PepitaPackage", "PepitaPackage\PepitaPackage.csproj", "{718DA216-27D2-45AE-886C-08D83AE9C004}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PepitaPackage.Tests", "PepitaPackage.Tests\PepitaPackage.Tests.csproj", "{CCA0AA65-9F3A-4268-B851-1A32710E55A2}"

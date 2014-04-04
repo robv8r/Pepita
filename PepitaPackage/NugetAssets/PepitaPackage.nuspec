@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata minClientVersion="2.8" >
+    <id>PepitaPackage</id>
+    <version>$version$</version>
+    <title>PepitaPackage</title>
+    <authors>Simon Cropp</authors>
+    <owners>Simon Cropp</owners>
+    <developmentDependency>true</developmentDependency>
+    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>http://github.com/SimonCropp/Pepita</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://raw.github.com/SimonCropp/Pepita/master/Icons/package_icon.png</iconUrl>
+    <description>A small (12KB) MSBuild task that builds nuget packages (.nupkg).</description>
+    <summary />
+    <language>en-AU</language>
+    <tags>Nuget</tags>
+  </metadata>
+</package>
