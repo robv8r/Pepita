@@ -78,12 +78,10 @@ public partial class Runner
             {
                 continue;
             }
-            using (Stream stream = File.OpenRead(entry))
-            {
-                CreatePart(package, entry, stream);
-            }
+            CreatePart(package, entry);
         }
     }
+
 
 
     void WriteManifest(Package package)
