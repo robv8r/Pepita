@@ -22,6 +22,7 @@ public partial class Runner
             if (fileVersionInfo.CompanyName != null)
             {
                 nuspecContent = nuspecContent.Replace("$authors$", fileVersionInfo.CompanyName);
+                nuspecContent = nuspecContent.Replace("$author$", fileVersionInfo.CompanyName);
             }
             if (fileVersionInfo.FileDescription != null)
             {
